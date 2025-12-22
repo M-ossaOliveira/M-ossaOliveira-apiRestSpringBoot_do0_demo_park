@@ -6,6 +6,7 @@ import com.mballem.demoparkapi.web.dto.UsuarioCreateDto;
 import com.mballem.demoparkapi.web.dto.UsuarioResponseDto;
 import com.mballem.demoparkapi.web.dto.UsuarioSenhaDto;
 import com.mballem.demoparkapi.web.dto.mapper.UsuarioMapper;
+import com.mballem.demoparkapi.web.exception.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,10 +36,10 @@ public class UsuarioController {
                             (mediaType = "application/json",schema = @Schema(implementation = UsuarioResponseDto.class))),
                     @ApiResponse(responseCode = "409",description = "Usuário e-mail já cadastrado no sistema",
                             content=@Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = UsuarioResponseDto.class))),
+                                    schema = @Schema(implementation = ErrorMessage.class))),
                     @ApiResponse(responseCode = "422",description = "Recurso não processado/ Dados entrada inválidos",
                             content=@Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = UsuarioResponseDto.class)))
+                                    schema = @Schema(implementation = ErrorMessage.class)))
             }
     )
     @PostMapping
@@ -47,12 +48,30 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDto(user));
     }
 
+    @Operation(summary ="Recupera um usuário", description = "Recurso para recuperar um usuário", responses =
+            {
+                    @ApiResponse(responseCode = "200",description = "Recurso recuperado com sucesso", content=@Content
+                            (mediaType = "application/json",schema = @Schema(implementation = UsuarioResponseDto.class))),
+                    @ApiResponse(responseCode = "404",description = "Recurso não encontrado",
+                            content=@Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorMessage.class)))
+            }
+    )
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDto> getById(@PathVariable Long id) {
         Usuario user = usuarioService.buscarPorId(id);
         return ResponseEntity.ok(UsuarioMapper.toDto(user));
     }
 
+    @Operation(summary ="Atualizar um usuário", description = "Recurso para atualizar um usuário", responses =
+            {
+                    @ApiResponse(responseCode = "204",description = "Senha atualizada com sucesso", content=@Content
+                            (mediaType = "application/json",schema = @Schema(implementation = Void.class))),
+                    @ApiResponse(responseCode = "404",description = "Recurso não encontrado",
+                            content=@Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorMessage.class)))
+            }
+    )
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updatePassword(@PathVariable Long id, @Valid @RequestBody UsuarioSenhaDto dto) {
         Usuario user = usuarioService.editarSenha(id, dto.getSenhaAtual(), dto.getNovaSenha(), dto.getConfirmaSenha());
