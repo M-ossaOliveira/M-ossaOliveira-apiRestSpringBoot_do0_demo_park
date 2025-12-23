@@ -66,9 +66,9 @@ public class UsuarioController {
     @Operation(summary ="Atualizar um usuário", description = "Recurso para atualizar um usuário", responses =
             {
                     @ApiResponse(responseCode = "204",description = "Senha atualizada com sucesso", content=@Content
-                            (mediaType = "application/json",schema = @Schema(implementation = Void.class))),
+                            (mediaType = "/application/json",schema = @Schema(implementation = Void.class))),
                     @ApiResponse(responseCode = "400",description = "Senha não confere",
-                            content=@Content(mediaType = "application/json",
+                            content=@Content(mediaType = "/application/json",
                                     schema = @Schema(implementation = ErrorMessage.class))),
                     @ApiResponse(responseCode = "404",description = "Recurso não encontrado",
                             content=@Content(mediaType = "application/json",
