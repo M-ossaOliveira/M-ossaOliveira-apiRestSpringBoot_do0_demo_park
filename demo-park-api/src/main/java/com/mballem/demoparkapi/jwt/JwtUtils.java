@@ -18,7 +18,7 @@ import java.util.Date;
 public class JwtUtils {
     public static final String JWT_BEARER= "Bearer";
     public static final String JWT_AUTHORIZATION= "Authorization";
-    public static final String SECRET_KEY= "123mndgtok&whnaopljw*&$bwtjnmh12";
+    public static final String SECRET_KEY= "AbCdEf12.xYz_7890ab.LMnoPQrsTuv1";
     public static final long EXPIRE_DAYS=0;
     public static final long EXPIRE_HOURS=0;
     public static final long EXPIRE_MINUTES=2;
